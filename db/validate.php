@@ -8,7 +8,8 @@ $username = strtolower(trim($_POST['username']));
 $password = trim($_POST['password']);
 
 // Additional data for registration
-if (isset($_POST['regst'])) {
+if (isset($_POST['regst']))
+{
     $fname = $_POST['fname'];
     $lname = $_POST['lname'];
     $email = $_POST['email'];
@@ -18,7 +19,8 @@ if (isset($_POST['regst'])) {
 $login = 0;
 
 // validate function to validate username and password
-function validate($username, $password, $connection) {
+function validate($username, $password, $connection)
+{
     // login variable
     global $login;
 
@@ -29,20 +31,25 @@ function validate($username, $password, $connection) {
     $sql = "SELECT `id`, `username`,`password` FROM `users` WHERE `username` = '$username'";
     $result = mysqli_query($connection, $sql);
 
-    if (mysqli_num_rows($result) == 1) {
+    if (mysqli_num_rows($result) == 1)
+    {
         $row = mysqli_fetch_assoc($result);
-        if (($row['username'] == $username) && ($row['password'] == $hashed_pswd)) {
+        if (($row['username'] == $username) && ($row['password'] == $hashed_pswd))
+        {
             $login = 1;
-        } else {
+        } else
+        {
             $login = 0;
         }
-    } else {
+    } else
+    {
         $login = 0;
     }
 }
 
 // alerting function
-function alert_message($message, $location) {
+function alert_message($message, $location)
+{
     echo '<script language="javascript">';
     echo 'alert("' . $message . '");';
     echo 'window.location="' . $location . '";';
@@ -50,11 +57,13 @@ function alert_message($message, $location) {
 }
 
 // checking if the user is logging in or registering
-if (isset($_POST['lgn']) && isset($username) && isset($password)) {
+if (isset($_POST['lgn']) && isset($username) && isset($password))
+{
     // passing required value to validate function and checking the result
     validate($username, $password, $connection);
-    if ($login == 0) {
-        alert_message("Username & Password don't match", $home_page);
+    if ($login == 0)
+    {
+        alert_message("Username & Password don't match", $login_page);
         exit();
     }
     /* As logged in details are validated, we will start the session for that user.
@@ -64,7 +73,8 @@ if (isset($_POST['lgn']) && isset($username) && isset($password)) {
     $sql = "SELECT `id` FROM `users` WHERE `username` = '$username';";
     $result = mysqli_query($connection, $sql);
 
-    if (mysqli_num_rows($result) == 1) {
+    if (mysqli_num_rows($result) == 1)
+    {
         // fetching and storing records in variables
         $row = mysqli_fetch_assoc($result);
         $uid = $row['id'];
@@ -79,20 +89,23 @@ if (isset($_POST['lgn']) && isset($username) && isset($password)) {
     echo '<script language="javascript">';
     echo 'window.location="' . $home_page . 'account.php?username=' . $username . '";';
     echo '</script>';
-} else {
-    if (isset($_POST['regst']) && isset($username) && isset($password) && isset($email) && isset($fname) && isset($lname)) {
+} else
+{
+    if (isset($_POST['regst']) && isset($username) && isset($password) && isset($email) && isset($fname) && isset($lname))
+    {
         // Validating email format using RegEx
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            alert_message("Invalid email format", $home_page);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
+            alert_message("Invalid email format", $login_page);
             exit();
         }
 
-        // Validating password using RegEx
-        $password_pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/';
-        if (!preg_match($password_pattern, $password)) {
-            alert_message("Invalid password format", $home_page);
-            exit();
-        }
+        // // Validating password using RegEx
+        // $password_pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/';
+        // if (!preg_match($password_pattern, $password)) {
+        //     alert_message("Invalid password format", $login_page);
+        //     exit();
+        // }
 
         $hashed_pswd = crypt($password, '$1$');
 
@@ -100,7 +113,8 @@ if (isset($_POST['lgn']) && isset($username) && isset($password)) {
         $result = mysqli_query($connection, $sql);
 
         // check whether username exists
-        if (mysqli_num_rows($result) == 0) {
+        if (mysqli_num_rows($result) == 0)
+        {
             /* After passing validation (username exists? .etc) we will create an account for the user */
             $sql = "INSERT INTO `users` (`id`, `username`, `fname`, `lname`, `email`, `password`) VALUES (NULL, '$username', '$fname', '$lname', '$email', '$hashed_pswd')";
 
@@ -110,7 +124,8 @@ if (isset($_POST['lgn']) && isset($username) && isset($password)) {
             $sql = "SELECT `id` FROM `users` WHERE `username` = '$username';";
             $result = mysqli_query($connection, $sql);
 
-            if (mysqli_num_rows($result) == 1) {
+            if (mysqli_num_rows($result) == 1)
+            {
                 // fetching and storing records in variables
                 $row = mysqli_fetch_assoc($result);
                 $uid = $row['id'];
@@ -126,8 +141,9 @@ if (isset($_POST['lgn']) && isset($username) && isset($password)) {
             echo 'alert("Successfully! registered");';
             echo 'window.location="' . $home_page . 'account.php?username=' . $username . '";';
             echo '</script>';
-        } else {
-            alert_message("Username already taken. Try another one", $home_page);
+        } else
+        {
+            alert_message("Username already taken. Try another one", $login_page);
         }
     }
 }

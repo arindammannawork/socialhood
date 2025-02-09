@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `minglrcu_ma`
+-- Database: `Social Hoodcu_ma`
 --
 
 -- --------------------------------------------------------
@@ -70,10 +70,10 @@ CREATE TABLE `rooms` (
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `username` varchar(20) NOT NULL,
+  `username` varchar(20) NOT NULL UNIQUE,
   `fname` varchar(50) NOT NULL,
   `lname` varchar(50) NOT NULL,
-  `email` varchar(256) NOT NULL,
+  `email` varchar(256) NOT NULL UNIQUE,
   `password` text NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

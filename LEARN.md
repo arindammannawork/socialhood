@@ -1,35 +1,32 @@
-# Learning and Understanding Minglr Social Network Site
+# Learning and Understanding Social Hood Social Network Site
 
-Welcome to the learning and understanding guide for the Minglr Social Network Site repository. This guide is designed to help you get acquainted with the project's codebase, architecture, and best practices. Whether you're a new contributor or just interested in exploring the inner workings of Minglr, this guide will provide you with a solid starting point.
+Welcome to the learning and understanding guide for the Social Hood Social Network Site repository. This guide is designed to help you get acquainted with the project's codebase, architecture, and best practices. Whether you're a new contributor or just interested in exploring the inner workings of Social Hood, this guide will provide you with a solid starting point.
 
 ## Table of Contents
 
 - [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
-- [How Minglr Works](#how-minglr-works)
+- [How Social Hood Works](#how-Social Hood-works)
 - [Contributing Guidelines](#contributing-guidelines)
 - [Getting Started](#getting-started)
 - [Additional Resources](#additional-resources)
 
 ## Project Structure
 
-Minglr's codebase is organized in a structured manner to make it easier to navigate and understand. Here are the key directories and their purposes:
+Social Hood's codebase is organized in a structured manner to make it easier to navigate and understand. Here are the key directories and their purposes:
 
-- `/`: This directory contains the source code for the Minglr application. You'll find the PHP files that power the backend of the social networking site.
+- `/`: This directory contains the source code for the Social Hood application. You'll find the PHP files that power the backend of the social networking site.
 
 - `/back`: This directory contains the code for connection, env, logout, and search files.
-  
-- `/db`: Here, you'll find the SQL file (`database.sql`) for setting up the database schema used by Minglr and the connection and validation file.
-  
+- `/db`: Here, you'll find the SQL file (`database.sql`) for setting up the database schema used by Social Hood and the connection and validation file.
 - `/error`: In this directory, you will find HTML files for error
-  
 - `/style`: The public directory stores assets like CSS, and JavaScript.
 
 - `/uploads`: Here, you will find all the images uploaded by the users on the platform.
 
 ## Technologies Used
 
-Minglr relies on several technologies to deliver its functionality. Understanding these technologies can help you navigate the codebase more effectively:
+Social Hood relies on several technologies to deliver its functionality. Understanding these technologies can help you navigate the codebase more effectively:
 
 - **PHP**: The primary backend language used for server-side logic.
 
@@ -39,9 +36,9 @@ Minglr relies on several technologies to deliver its functionality. Understandin
 
 - **MySQL**: The database management system used to store and retrieve data.
 
-## How Minglr Works
+## How Social Hood Works
 
-Minglr provides several key features, including user registration, profile management, news feeds, post creation, private messaging, and more. To better understand how these features are implemented, consider exploring the following components:
+Social Hood provides several key features, including user registration, profile management, news feeds, post creation, private messaging, and more. To better understand how these features are implemented, consider exploring the following components:
 
 - **User Authentication**: Check the code for user registration and login in the `/db/validation.php` directory.
 
@@ -55,17 +52,17 @@ Minglr provides several key features, including user registration, profile manag
 
 ## Contributing Guidelines
 
-Before contributing to Minglr, make sure to read and follow our [Contributing Guidelines](CONTRIBUTING.md). These guidelines will help you understand how to report issues, suggest enhancements, and submit pull requests effectively.
+Before contributing to Social Hood, make sure to read and follow our [Contributing Guidelines](CONTRIBUTING.md). These guidelines will help you understand how to report issues, suggest enhancements, and submit pull requests effectively.
 
 ## Getting Started
 
-To get started with Minglr, follow these steps:
+To get started with Social Hood, follow these steps:
 
-1. Clone the Minglr repository to your local machine.
+1. Clone the Social Hood repository to your local machine.
 
 2. Set up a local development environment (e.g., XAMPP) and configure it to run the project.
 
-3. Review the project structure and explore the codebase to get a better understanding of how Minglr works.
+3. Review the project structure and explore the codebase to get a better understanding of how Social Hood works.
 
 4. Experiment with making changes or improvements within your forked repository.
 
@@ -75,6 +72,6 @@ To get started with Minglr, follow these steps:
 
 - If you encounter any issues or have questions, please refer to the project's [GitHub Issues](#) section for assistance.
 
-- Check the [LICENSE](LICENSE) file for information on Minglr's licensing.
+- Check the [LICENSE](LICENSE) file for information on Social Hood's licensing.
 
-By following this guide, you'll gain a better understanding of Minglr's codebase and be better equipped to contribute to the project or utilize it for your own purposes. Good luck and happy coding!
+By following this guide, you'll gain a better understanding of Social Hood's codebase and be better equipped to contribute to the project or utilize it for your own purposes. Good luck and happy coding!
