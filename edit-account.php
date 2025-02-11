@@ -93,7 +93,7 @@ include './components/navbar.php'; //previously made footer part
         </div>
         <div class="login-signup edit-form">
 
-            <form action="backend/edit-account-backend.php" method="post">
+            <form action="backend/edit-account-backend.php" method="post" enctype="multipart/form-data">
                 <div class="edit-form-div">
                     <div class="label">
 

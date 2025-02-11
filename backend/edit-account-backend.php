@@ -19,20 +19,30 @@ if (isset($_POST['editAccount']))
 }
 // $profile_pic = null;
 // $cover_pic = null;
-if ($_FILES['profile_pic']['error'] != 4)
+if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0)
 {
-    $imagename = $_FILES['profile_pic']['name'];
-    $imagetmpname = $_FILES['profile_pic']['tmp_name'];
-
-    // assigning new name to the image file
-    $imagename = explode(".", $imagename);
-    $imageext = strtolower(string: end($imagename));
+    $image_info = pathinfo($_FILES['profile_pic']['name']);
+    $imageext = strtolower($image_info['extension']);
     $imagename = uniqid() . "." . $imageext;
 
     $folder = "../uploads/" . $imagename;
-    move_uploaded_file($imagetmpname, $folder);
+    move_uploaded_file($_FILES['profile_pic']['tmp_name'], $folder);
     $profile_pic = $imagename;
 }
+// if ($_FILES['profile_pic']['error'] != 4)
+// {
+//     $imagename = $_FILES['profile_pic']['name'];
+//     $imagetmpname = $_FILES['profile_pic']['tmp_name'];
+
+//     // assigning new name to the image file
+//     $imagename = explode(".", $imagename);
+//     $imageext = strtolower(string: end($imagename));
+//     $imagename = uniqid() . "." . $imageext;
+
+//     $folder = "../uploads/" . $imagename;
+//     move_uploaded_file($imagetmpname, $folder);
+//     $profile_pic = $imagename;
+// }
 if ($_FILES['cover_pic']['error'] != 4)
 {
     $imagename = $_FILES['cover_pic']['name'];
@@ -43,7 +53,7 @@ if ($_FILES['cover_pic']['error'] != 4)
     $imageext = strtolower(string: end($imagename));
     $imagename = uniqid() . "." . $imageext;
 
-    $folder = "uploads/" . $imagename;
+    $folder = "../uploads/" . $imagename;
     move_uploaded_file($imagetmpname, $folder);
     $cover_pic = $imagename;
 }
