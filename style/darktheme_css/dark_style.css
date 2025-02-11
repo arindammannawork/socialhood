@@ -480,3 +480,15 @@ a {
   width: 70%;
   margin-bottom: 6px;
 }
+
+.edit-acc-btn {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  text-decoration: none;
+  font-weight: 500;
+  color: #13239a;
+  background-color: white;
+  padding: 4px 10px;
+  border-radius: 10px;
+}

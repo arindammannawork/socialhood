@@ -103,6 +103,9 @@ include './components/navbar.php'; //previously made footer part
                             <?php
                 }
                 ?>
+                        <?php if (isset($_SESSION['username']) and ($username == $_SESSION['username'])): ?>
+                            <a href="edit-account.php" class="edit-acc-btn">Edit</a>
+                        <?php endif; ?>
                         <div class="account-img">
                             <ul>
 
@@ -220,11 +223,21 @@ include './components/navbar.php'; //previously made footer part
                                     {
                                         if ($postrow[1] == NULL)
                                         {
+                                            if ($profile_pic != NULL)
+                                            {
+                                                # code...
+                                                $profile_pic_path = 'uploads/' . $profile_pic;
+                                            } else
+                                            {
+                                                # code...
+                                                $profile_pic_path = 'https://api.dicebear.com/6.x/initials/png?seed=' . $fname . '&size=128';
+                                            }
+
                                             echo '<div class="feed-post-display-box">
                                             <div class="feed-post-display-box-head">
                                                 <ul>
                                                     <li>
-                                                    <a href="account.php?username=' . $username . '" style="text-decoration: none;"><img src="https://api.dicebear.com/6.x/initials/png?seed=' . $fname . '&size=128" alt="profile" class="account-profpic"></a>
+                                                    <a href="account.php?username=' . $username . '" style="text-decoration: none;"><img src="' . $profile_pic_path . '" alt="profile" class="account-profpic"></a>
                                                     </li>
                                                     <li style="padding-left: 10px; padding-right: 10px;">
                                                         <a href="account.php?username=' . $username . '" style="text-decoration: none;">' . $fname . '</a>
