@@ -47,7 +47,7 @@ include './components/navbar.php'; //previously made footer part
 <div class="login-signup-wraper">
 
     <div class="login-signup">
-        <center><img class="login-logo" src="logo/Social Hood logo3.png" alt="logo"></center>
+        <center><img class="login-logo" src="logo/logo.png" alt="logo"></center>
         <center><small><button class="btn"
                     onclick="getElementById('login-form').style.display='block'; getElementById('regst-form').style.display='none';">Login</button>OR<button
                     class="btn"

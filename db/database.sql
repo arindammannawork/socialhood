@@ -78,6 +78,13 @@ CREATE TABLE `users` (
   `status` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `friends` (
+  `id` int(11) NOT NULL,
+  `from` varchar(20) NOT NULL UNIQUE,
+  `to` varchar(50) NOT NULL,
+  `isAccepected` bool(50) NOT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
