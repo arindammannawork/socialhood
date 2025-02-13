@@ -77,6 +77,63 @@ include './components/navbar.php'; //previously made footer part
         {
             $tab = "feed";
         }
+
+        if ($tab == "friend_requests")
+        {
+            // Get all pending friend requests for the user
+            $sql = "SELECT friend_username FROM friends WHERE username = ? AND status = 'pending'";
+            $stmt = mysqli_prepare($connection, $sql);
+            mysqli_stmt_bind_param($stmt, "s", $_SESSION['username']);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            $friend_requests = [];
+
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $friend_username = $row['friend_username'];
+
+                // Fetch user details from the users table
+                $user_sql = "SELECT username, fname, lname, profile_pic FROM users WHERE username = ?";
+                $user_stmt = mysqli_prepare($connection, $user_sql);
+                mysqli_stmt_bind_param($user_stmt, "s", $friend_username);
+                mysqli_stmt_execute($user_stmt);
+                $user_result = mysqli_stmt_get_result($user_stmt);
+
+                if ($user_row = mysqli_fetch_assoc($user_result))
+                {
+                    $friend_requests[] = $user_row; // Add user details to the array
+                }
+            }
+        }
+        if ($tab == "friends")
+        {
+            // Get all pending friend requests for the user
+            $sql = "SELECT friend_username FROM friends WHERE username = ? AND status = 'accepted'";
+            $stmt = mysqli_prepare($connection, $sql);
+            mysqli_stmt_bind_param($stmt, "s", $_SESSION['username']);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            $friend_requests = [];
+
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $friend_username = $row['friend_username'];
+
+                // Fetch user details from the users table
+                $user_sql = "SELECT username, fname, lname, profile_pic FROM users WHERE username = ?";
+                $user_stmt = mysqli_prepare($connection, $user_sql);
+                mysqli_stmt_bind_param($user_stmt, "s", $friend_username);
+                mysqli_stmt_execute($user_stmt);
+                $user_result = mysqli_stmt_get_result($user_stmt);
+
+                if ($user_row = mysqli_fetch_assoc($user_result))
+                {
+                    $friend_requests[] = $user_row; // Add user details to the array
+                }
+            }
+        }
         $username = $_GET['username'];
         $sql = "SELECT `id`,`username`, `fname`, `lname`, `email`,`profile_pic`,`cover_pic` FROM `users` WHERE `username` ='$username';";
         $result = mysqli_query($connection, $sql);
@@ -88,6 +145,33 @@ include './components/navbar.php'; //previously made footer part
         $email = $row['email'];
         $profile_pic = $row['profile_pic'];
         $cover_pic = $row['cover_pic'];
+        function checkFriendshipStatus($username1, $username2, $connection)
+        {
+            // Query to check if they are already friends or a request exists
+            $sql = "SELECT status FROM friends 
+            WHERE (username = ? AND friend_username = ?) 
+               OR (username = ? AND friend_username = ?)";
+
+            $stmt = mysqli_prepare($connection, $sql);
+            mysqli_stmt_bind_param($stmt, "ssss", $username1, $username2, $username2, $username1);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            if ($row = mysqli_fetch_assoc($result))
+            {
+
+                return $row['status']; // Return 'pending' or 'accepted'
+            }
+            return "notSend"; // No relationship exists
+        }
+        if (isset($_SESSION['username']) and ($username != $_SESSION['username']))
+        {
+            $status = checkFriendshipStatus($username, $_SESSION['username'], $connection);
+        } else
+        {
+            $status = false;
+
+        }
         ?>
         <div class="account">
             <div class="account-body">
@@ -103,9 +187,30 @@ include './components/navbar.php'; //previously made footer part
                             <?php
                 }
                 ?>
-                        <?php if (isset($_SESSION['username']) and ($username == $_SESSION['username'])): ?>
-                            <a href="edit-account.php" class="edit-acc-btn">Edit</a>
-                        <?php endif; ?>
+
+
+                        <div class="cover-pic-right-bottom-sec">
+                            <?php
+
+                            if ($status == "accepted"): ?>
+                                <form action="message.php" method="GET">
+                                    <input type="hidden" name="recp2" value="<?php echo $user_id; ?>">
+                                    <button class="send-req-btn">Send message</button>
+                                </form>
+                            <?php endif;
+                            if ($status == "notSend"): ?>
+
+                                <form enctype="multipart/form-data" accept="" method="post"
+                                    action="backend/friend-backend.php?redirect=account.php?username= <?php echo $username; ?>">
+                                    <input type="hidden" name="username" value="<?php echo $_SESSION['username']; ?>">
+                                    <input type="hidden" name="friend_username" value="<?php echo $username; ?>">
+                                    <button class="send-req-btn" type="submit">Send Friend Request</button>
+                                </form>
+                            <?php endif; ?>
+                            <?php if (isset($_SESSION['username']) and ($username == $_SESSION['username'])): ?>
+                                <a href="edit-account.php" class="edit-acc-btn">Edit</a>
+                            <?php endif; ?>
+                        </div>
                         <div class="account-img">
                             <ul>
 
@@ -134,29 +239,12 @@ include './components/navbar.php'; //previously made footer part
                                         echo "<b>$fname</b>";
                                         echo "<small>@$username_row</small><br>";
                                         ?>
-                                        <?php if (isset($_SESSION['username']) and ($username != $_SESSION['username'])): ?>
-                                            <form action="message.php" method="GET">
-                                                <input type="hidden" name="recp2" value="<?php echo $user_id; ?>">
-                                                <button class="message-btn mobile-btn">Send message</button>
-                                            </form>
-                                            <form enctype="multipart/form-data" accept="" method="post"
-                                                action="backend/friend-backend.php?redirect=account.php?username= <?php echo $username; ?>">
-                                                <input type="hidden" name="username"
-                                                    value="<?php echo $_SESSION['username']; ?>">
-                                                <input type="hidden" name="friend_username" value="<?php echo $username; ?>">
-                                                <button class="upload-btn" type="submit">Send Friend Request</button>
-                                            </form>
-                                        <?php endif; ?>
+
                                     </div>
 
                                 </li>
                                 <li>
-                                    <?php if (isset($_SESSION['username']) and ($username != $_SESSION['username'])): ?>
-                                        <form action="message.php" method="GET">
-                                            <input type="hidden" name="recp2" value="<?php echo $user_id; ?>">
-                                            <button class="message-btn desktop-btn">Send message</button>
-                                        </form>
-                                    <?php endif; ?>
+
                                 </li>
                             </ul>
                         </div>
@@ -396,6 +484,59 @@ include './components/navbar.php'; //previously made footer part
                                 ?>
                             </div>
                         <?php endif; ?>
+
+                        <?php if ($tab == "friends"): ?>
+                            <div class="acc-photo">
+                                <?php if (empty($friend_requests)):
+                                    echo '<p>No friends found</p>';
+                                endif; ?>
+                                <?php if (!empty($friend_requests)): ?>
+                                    <?php foreach ($friend_requests as $user): ?>
+                                        <div class=" friend-req-box" id="friend-req-<?php echo $user['username']; ?>">
+                                            <div class="content">
+                                                <div class="left">
+                                                    <a href="account.php?username=souvik" style="text-decoration: none;"><img src="<?php echo $user['profile_pic'] ? "uploads/" . $user['profile_pic'] : "https://api.dicebear.com/6.x/initials/png?seed=<?php echo $fname ?>&size=128"
+                                                    ; ?>" alt="profile_pic" class="account-profpic"></a>
+                                                    <a href="account.php?username=souvik"
+                                                        style="text-decoration: none;"><?php echo $user['fname'] . " " . $user['lname']; ?></a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif;
+                        if ($tab == "friend_requests"): ?>
+                            <div class="acc-photo">
+                                <?php if (empty($friend_requests)):
+                                    echo '<p>No friend requests found</p>';
+                                endif; ?>
+                                <?php if (!empty($friend_requests)): ?>
+                                    <?php foreach ($friend_requests as $user): ?>
+                                        <div class=" friend-req-box" id="friend-req-<?php echo $user['username']; ?>">
+                                            <div class="content">
+                                                <div class="left">
+                                                    <a href="account.php?username=souvik" style="text-decoration: none;"><img src="<?php echo $user['profile_pic'] ? "uploads/" . $user['profile_pic'] : "https://api.dicebear.com/6.x/initials/png?seed=<?php echo $fname ?>&size=128"
+                                                    ; ?>" alt="profile_pic" class="account-profpic"></a>
+                                                    <a href="account.php?username=souvik"
+                                                        style="text-decoration: none;"><?php echo $user['fname'] . " " . $user['lname']; ?></a>
+                                                </div>
+                                                <div class="right">
+                                                    <button class="accept-req-btn"
+                                                        onclick="acceptFriendRequest('<?php echo $user['username']; ?>','<?php echo $_SESSION['username']; ?>')">Accept
+                                                        Request</button>
+                                                    <button class="ignore-req-btn"
+                                                        onclick="ignoreFriendRequest('<?php echo $user['username']; ?>','<?php echo $_SESSION['username']; ?>')">Ignore
+                                                        Request</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -404,6 +545,46 @@ include './components/navbar.php'; //previously made footer part
 </main>
 <script>
     // l    et current_url = window.location.href;
+    function acceptFriendRequest(friendUsername, loggedInUsername) {
+        fetch('backend/accept-request.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `friend_username=${encodeURIComponent(friendUsername)}&username=${encodeURIComponent(loggedInUsername)}`
+        })
+            .then(response => response.json()) // Expecting a JSON response
+            .then(data => {
+                if (data.success) {
+                    alert("Friend request accepted successfully!");
+                    document.getElementById(`friend-req-${friendUsername}`).remove(); // Remove from UI
+                } else {
+                    alert("Error: " + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function ignoreFriendRequest(friendUsername, loggedInUsername) {
+        fetch('backend/ignore-request.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `friend_username=${encodeURIComponent(friendUsername)}&username=${encodeURIComponent(loggedInUsername)}`
+        })
+            .then(response => response.json()) // Expecting a JSON response
+            .then(data => {
+                if (data.success) {
+                    alert("Friend request ignored.");
+                    document.getElementById(`friend-${friendUsername}`).remove(); // Remove from UI
+                } else {
+                    alert("Error: " + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
     if (current_url.indexOf("info") != -1) {
         document.querySelector('.acc-tabs-link.active').classList.remove('active');
         document.querySelector('.info-tab').classList.add('active');

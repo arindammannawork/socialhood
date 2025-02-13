@@ -482,7 +482,7 @@ a {
 }
 
 .edit-acc-btn {
-  position: absolute;
+  /* position: absolute; */
   right: 15px;
   bottom: 15px;
   text-decoration: none;
@@ -497,4 +497,67 @@ a {
 }
 .feed-post-display-box-image img {
   height: fit-content;
+}
+.cover-pic-right-bottom-sec {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.ignore-req-btn {
+  padding: 6px 10px;
+  border-radius: 5px;
+  color: white;
+  background-color: #d40303;
+  border: none;
+  cursor: pointer;
+}
+.send-req-btn,
+.accept-req-btn {
+  padding: 6px 10px;
+  border-radius: 5px;
+  color: white;
+  background-color: #12209d;
+  border: none;
+  cursor: pointer;
+}
+.send-req-btn:hover,
+.accept-req-btn:hover,
+.ignore-req-btn:hover {
+  opacity: 0.8;
+}
+.friend-req-box .content a img {
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+  border: none;
+  outline: none;
+}
+.friend-req-box .content a {
+  text-decoration: none;
+  cursor: pointer;
+}
+.friend-req-box .content .right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.friend-req-box .content .left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.friend-req-box .content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.friend-req-box {
+  margin-top: 15px;
+  background-color: #163353d1;
+  border: solid rgba(128, 128, 128, 0.248) 1px;
+  border-radius: 5px;
+  padding: 10px 20px;
 }
