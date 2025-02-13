@@ -492,3 +492,9 @@ a {
   padding: 4px 10px;
   border-radius: 10px;
 }
+.account-body {
+  padding-bottom: 40px;
+}
+.feed-post-display-box-image img {
+  height: fit-content;
+}

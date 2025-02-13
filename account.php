@@ -139,6 +139,13 @@ include './components/navbar.php'; //previously made footer part
                                                 <input type="hidden" name="recp2" value="<?php echo $user_id; ?>">
                                                 <button class="message-btn mobile-btn">Send message</button>
                                             </form>
+                                            <form enctype="multipart/form-data" accept="" method="post"
+                                                action="backend/friend-backend.php?redirect=account.php?username= <?php echo $username; ?>">
+                                                <input type="hidden" name="username"
+                                                    value="<?php echo $_SESSION['username']; ?>">
+                                                <input type="hidden" name="friend_username" value="<?php echo $username; ?>">
+                                                <button class="upload-btn" type="submit">Send Friend Request</button>
+                                            </form>
                                         <?php endif; ?>
                                     </div>
 
