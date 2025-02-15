@@ -109,17 +109,24 @@ include './components/navbar.php'; //previously made footer part
         if ($tab == "friends")
         {
             // Get all pending friend requests for the user
-            $sql = "SELECT friend_username FROM friends WHERE username = ? AND status = 'accepted'";
+            $sql = "SELECT username, friend_username FROM friends WHERE (username = ? AND status = 'accepted') OR (friend_username = ? AND status = 'accepted')";
             $stmt = mysqli_prepare($connection, $sql);
-            mysqli_stmt_bind_param($stmt, "s", $_SESSION['username']);
+            mysqli_stmt_bind_param($stmt, "ss", $_GET['username'], $_GET['username']);
             mysqli_stmt_execute($stmt);
-            $result = mysqli_stmt_get_result($stmt);
+            $result = mysqli_stmt_get_result(statement: $stmt);
 
             $friend_requests = [];
 
             while ($row = mysqli_fetch_assoc($result))
             {
-                $friend_username = $row['friend_username'];
+                if ($row['friend_username'] == $_GET['username'])
+                {
+                    $friend_username = $row['username'];
+                } else
+                {
+
+                    $friend_username = $row['friend_username'];
+                }
 
                 // Fetch user details from the users table
                 $user_sql = "SELECT username, fname, lname, profile_pic FROM users WHERE username = ?";
@@ -495,9 +502,12 @@ include './components/navbar.php'; //previously made footer part
                                         <div class=" friend-req-box" id="friend-req-<?php echo $user['username']; ?>">
                                             <div class="content">
                                                 <div class="left">
-                                                    <a href="account.php?username=souvik" style="text-decoration: none;"><img src="<?php echo $user['profile_pic'] ? "uploads/" . $user['profile_pic'] : "https://api.dicebear.com/6.x/initials/png?seed=<?php echo $fname ?>&size=128"
-                                                    ; ?>" alt="profile_pic" class="account-profpic"></a>
-                                                    <a href="account.php?username=souvik"
+                                                    <a href="account.php?username=<?php echo $user['username']; ?>"
+                                                        style="text-decoration: none;">
+                                                        <img src="<?php echo $user['profile_pic'] ? "uploads/" . $user['profile_pic'] : "https://api.dicebear.com/6.x/initials/png?seed=" . $user['fname'] . "&size=128"; ?>"
+                                                            alt="profile_pic" class="account-profpic">
+                                                    </a>
+                                                    <a href="account.php?username=<?php echo $user['username']; ?>"
                                                         style="text-decoration: none;"><?php echo $user['fname'] . " " . $user['lname']; ?></a>
                                                 </div>
                                             </div>
