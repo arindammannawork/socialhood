@@ -81,7 +81,7 @@ include './components/navbar.php'; //previously made footer part
         if ($tab == "friend_requests")
         {
             // Get all pending friend requests for the user
-            $sql = "SELECT friend_username FROM friends WHERE username = ? AND status = 'pending'";
+            $sql = "SELECT username FROM friends WHERE friend_username = ? AND status = 'pending'";
             $stmt = mysqli_prepare($connection, $sql);
             mysqli_stmt_bind_param($stmt, "s", $_SESSION['username']);
             mysqli_stmt_execute($stmt);
@@ -91,7 +91,7 @@ include './components/navbar.php'; //previously made footer part
 
             while ($row = mysqli_fetch_assoc($result))
             {
-                $friend_username = $row['friend_username'];
+                $friend_username = $row['username'];
 
                 // Fetch user details from the users table
                 $user_sql = "SELECT username, fname, lname, profile_pic FROM users WHERE username = ?";
@@ -200,10 +200,10 @@ include './components/navbar.php'; //previously made footer part
                             <?php
 
                             if ($status == "accepted"): ?>
-                                <form action="message.php" method="GET">
-                                    <input type="hidden" name="recp2" value="<?php echo $user_id; ?>">
-                                    <button class="send-req-btn">Send message</button>
-                                </form>
+                                <!-- <form action="message.php" method="GET"> -->
+                                <!-- <input type="hidden" name="recp2" value="<?php echo $user_id; ?>"> -->
+                                <a href="message.php?username=<?php echo $username; ?>" class="send-req-btn">Send message</a>
+                                <!-- </form> -->
                             <?php endif;
                             if ($status == "notSend"): ?>
 
@@ -527,8 +527,11 @@ include './components/navbar.php'; //previously made footer part
                                         <div class=" friend-req-box" id="friend-req-<?php echo $user['username']; ?>">
                                             <div class="content">
                                                 <div class="left">
-                                                    <a href="account.php?username=souvik" style="text-decoration: none;"><img src="<?php echo $user['profile_pic'] ? "uploads/" . $user['profile_pic'] : "https://api.dicebear.com/6.x/initials/png?seed=<?php echo $fname ?>&size=128"
-                                                    ; ?>" alt="profile_pic" class="account-profpic"></a>
+                                                    <a href="account.php?username=<?php echo $user['username']; ?>"
+                                                        style="text-decoration: none;">
+                                                        <img src="<?php echo $user['profile_pic'] ? "uploads/" . $user['profile_pic'] : "https://api.dicebear.com/6.x/initials/png?seed=" . $user['fname'] . "&size=128"; ?>"
+                                                            alt="profile_pic" class="account-profpic">
+                                                    </a>
                                                     <a href="account.php?username=souvik"
                                                         style="text-decoration: none;"><?php echo $user['fname'] . " " . $user['lname']; ?></a>
                                                 </div>
@@ -561,7 +564,7 @@ include './components/navbar.php'; //previously made footer part
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: `friend_username=${encodeURIComponent(friendUsername)}&username=${encodeURIComponent(loggedInUsername)}`
+            body: `friend_username=${encodeURIComponent(loggedInUsername)}&username=${encodeURIComponent(friendUsername)}`
         })
             .then(response => response.json()) // Expecting a JSON response
             .then(data => {
@@ -581,7 +584,7 @@ include './components/navbar.php'; //previously made footer part
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: `friend_username=${encodeURIComponent(friendUsername)}&username=${encodeURIComponent(loggedInUsername)}`
+            body: `friend_username=${encodeURIComponent(loggedInUsername)}&username=${encodeURIComponent(friendUsername)}`
         })
             .then(response => response.json()) // Expecting a JSON response
             .then(data => {
