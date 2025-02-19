@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 13, 2025 at 05:17 AM
+-- Generation Time: Feb 19, 2025 at 02:36 AM
 -- Server version: 11.4.4-MariaDB
 -- PHP Version: 8.3.15
 
@@ -24,6 +24,47 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `chat`
+--
+
+CREATE TABLE `chat` (
+  `id` int(11) NOT NULL,
+  `from_username` varchar(50) NOT NULL,
+  `to_username` varchar(50) NOT NULL,
+  `message` text NOT NULL,
+  `sent_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `chat`
+--
+
+INSERT INTO `chat` (`id`, `from_username`, `to_username`, `message`, `sent_at`) VALUES
+(1, 'akash', 'arindam', 'hello', '2025-02-16 05:47:01'),
+(2, 'akash', 'arindam', 'hi', '2025-02-16 06:05:40'),
+(3, 'arindam', 'akash', 'hello akash', '2025-02-16 06:06:27'),
+(4, 'akash', 'arindam', 'hi', '2025-02-16 06:08:58'),
+(5, 'akash', 'arindam', 'hi', '2025-02-16 06:14:19'),
+(6, 'arindam', 'akash', 'kire vai', '2025-02-16 06:14:33'),
+(7, 'arindam', 'akash', 'kamon achis', '2025-02-16 06:14:40'),
+(8, 'arindam', 'akash', 'kalabo janis', '2025-02-16 06:14:46'),
+(9, 'arindam', 'akash', 'hi', '2025-02-16 06:14:48'),
+(10, 'arindam', 'akash', 'hi', '2025-02-16 06:14:49'),
+(11, 'arindam', 'akash', 'hi', '2025-02-16 06:14:52'),
+(12, 'arindam', 'akash', 'hmmmmmm', '2025-02-16 06:15:08'),
+(13, 'arindam', 'akash', 'hehehehe', '2025-02-16 06:15:25'),
+(14, 'arindam', 'akash', 'hi', '2025-02-16 06:18:46'),
+(15, 'arindam', 'akash', 'kamon achis', '2025-02-16 06:18:52'),
+(16, 'akash', 'arindam', 'hi', '2025-02-16 06:26:35'),
+(17, 'arindam', 'akash', 'hello', '2025-02-16 06:26:52'),
+(18, 'arindam', 'akash', 'hello', '2025-02-16 06:27:49'),
+(19, 'arindam', 'akash', 'kalabo janis', '2025-02-16 06:27:54'),
+(20, 'arindam', 'akash', 'hi', '2025-02-16 06:28:03'),
+(21, 'akash', 'arindam', 'rrrr', '2025-02-16 06:28:10');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `friends`
 --
 
@@ -38,21 +79,8 @@ CREATE TABLE `friends` (
 --
 
 INSERT INTO `friends` (`username`, `friend_username`, `status`) VALUES
-('souvik', 'arindam', 'pending');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `messages`
---
-
-CREATE TABLE `messages` (
-  `msg_id` int(11) NOT NULL,
-  `author` int(11) NOT NULL,
-  `message` mediumtext NOT NULL,
-  `room_id` int(11) NOT NULL,
-  `dos` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+('souvik', 'arindam', 'accepted'),
+('akash', 'arindam', 'accepted');
 
 -- --------------------------------------------------------
 
@@ -81,18 +109,6 @@ INSERT INTO `posts` (`pid`, `uid`, `msg`, `image`, `type`, `dop`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `rooms`
---
-
-CREATE TABLE `rooms` (
-  `room_id` int(11) NOT NULL,
-  `recp1` int(11) NOT NULL,
-  `recp2` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -113,19 +129,19 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `fname`, `lname`, `email`, `password`, `status`, `profile_pic`, `cover_pic`) VALUES
-(1, 'arindam', 'Arindam', 'Manna', 'arindammannawork@gmail.com', '$1$$iC.dUsGpxNNJGeOm1dFio/', 0, '67ab3f22be403.', '67ab3f22be434.'),
-(2, 'souvik', 'souvik', 'samanta', 'souvik@gmail.com', '$1$$iC.dUsGpxNNJGeOm1dFio/', 0, '67ad7fd97a8dd.jpg', '67ad7fd97c75a.png');
+(1, 'arindam', 'Arindam', 'Manna', 'arindammannawork@gmail.com', '$1$$iC.dUsGpxNNJGeOm1dFio/', 0, NULL, NULL),
+(2, 'souvik', 'souvik', 'samanta', 'souvik@gmail.com', '$1$$iC.dUsGpxNNJGeOm1dFio/', 0, '67ad7fd97a8dd.jpg', '67ad7fd97c75a.png'),
+(3, 'akash', 'Akash', 'Koley', 'akash@gmail.com', '$1$$iC.dUsGpxNNJGeOm1dFio/', 0, NULL, NULL);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `messages`
+-- Indexes for table `chat`
 --
-ALTER TABLE `messages`
-  ADD PRIMARY KEY (`msg_id`),
-  ADD KEY `msgroom` (`room_id`);
+ALTER TABLE `chat`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `posts`
@@ -133,12 +149,6 @@ ALTER TABLE `messages`
 ALTER TABLE `posts`
   ADD PRIMARY KEY (`pid`),
   ADD KEY `user_post` (`uid`);
-
---
--- Indexes for table `rooms`
---
-ALTER TABLE `rooms`
-  ADD PRIMARY KEY (`room_id`);
 
 --
 -- Indexes for table `users`
@@ -153,10 +163,10 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `messages`
+-- AUTO_INCREMENT for table `chat`
 --
-ALTER TABLE `messages`
-  MODIFY `msg_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `chat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `posts`
@@ -165,16 +175,10 @@ ALTER TABLE `posts`
   MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `rooms`
---
-ALTER TABLE `rooms`
-  MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
