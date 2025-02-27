@@ -26,6 +26,7 @@
   animation-name: mainloader;
   animation-duration: 2s;
   animation-iteration-count: 1;
+  height: fit-content;
 }
 
 body {
