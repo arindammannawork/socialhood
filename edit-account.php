@@ -40,6 +40,7 @@ include './components/navbar.php'; //previously made footer part
     <div class="account">
         <div class="account-body">
             <?php
+            echo $cover_pic;
             if ($cover_pic == null)
             { ?>
                 <div class="account-banner" style="background-image: url('logo/banner2.jpg');">
@@ -163,15 +164,19 @@ include './components/navbar.php'; //previously made footer part
     function showData(fromOnchange) {
         let profile_pic_file = document.querySelector('input[name="profile_pic"]').files[0];
         let cover_pic_file = document.querySelector('input[name="cover_pic"]').files[0];
+        // console.log(userData.cover_pic);
+
+
+
         if (profile_pic_file) {
             document.querySelector('.account-profpic').setAttribute("src", URL.createObjectURL(profile_pic_file));
-        } else {
+        } else if (userData.profile_pic) {
             document.querySelector('.account-profpic').setAttribute("src", `uploads/${userData.profile_pic}`);
         }
         if (cover_pic_file) {
             document.querySelector('.account-banner').style.backgroundImage =
                 `url("${URL.createObjectURL(cover_pic_file)}")`;
-        } else {
+        } else if (userData.cover_pic) {
             document.querySelector('.account-banner').style.backgroundImage = `url("uploads/${userData.cover_pic}")`;
         }
 
