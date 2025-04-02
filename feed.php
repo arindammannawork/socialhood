@@ -62,6 +62,7 @@ include './components/navbar.php'; //previously made footer part
                     if ($postrow[1] == NULL)
                     {
                         $profile_pic = $usrrow['profile_pic'];
+                        $fname = $usrrow['fname'];
                         if ($profile_pic != NULL)
                         {
                             # code...

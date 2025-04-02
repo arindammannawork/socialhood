@@ -47,14 +47,19 @@
                 <div class="bar bar2"></div>
                 <div class="bar bar3"></div>
             </div>
-            <label class="logo"><a href="/"><img class="logo" src="logo/logo.png"></a></label>
+            <label class="logo"><a href="<?php echo $home_page; ?>"><img class="logo" src="logo/logo.png"></a></label>
             <!-- <ul>
                 <img src="img/dark_img/MoonIcon.png" alt="Theme Icon" height="19" width="19" id="theme-icon"
                     id="theme-toggle" class="theme-button" onclick="changeIndexTheme()">
             </ul> -->
             <ul class="menu-items">
 
-                <li class="menu-items-li"><a class="navv-item nav-item-feed" href="feed.php"><svg
+
+
+                <?php
+                if (isset($_SESSION['username']))
+                {
+                    echo '<li class="menu-items-li"><a class="navv-item nav-item-feed" href="feed.php"><svg
                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                             class="menu-icon">
                             <path fill-rule="evenodd"
@@ -62,21 +67,12 @@
                                 clip-rule="evenodd" />
                         </svg>
                         Feed</a></li>
-                <li class="menu-items-li">
-                    <?php
-                    if (isset($_SESSION['username']))
-                    {
-                        echo '<a class="navv-item nav-item-account" href="account.php?username=' . $_SESSION['username'] . '" "><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="menu-icon">
+                        <li class="menu-items-li"><a class="navv-item nav-item-account" href="account.php?username=' . $_SESSION['username'] . '" "><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="menu-icon">
                     <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
-                  </svg>Account</a>';
-                    } else
-                    {
-                        echo '<a class="navv-item nav-item-account" href="account.php"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="menu-icon">
-                    <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
-                  </svg>Account</a>';
-                    }
-                    ?>
-                </li>
+                  </svg>Account</a></li>';
+                }
+                ?>
+
                 <li class="menu-items-li">
                     <?php
                     if (!isset($_SESSION['username']))
@@ -86,7 +82,7 @@
                       </svg>Login</a>';
                     } else
                     {
-                        echo '<a class="navv-item" href="back/logout.php"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="menu-icon">
+                        echo '<a class="navv-item" href="logout.php"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="menu-icon">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
                       </svg>Logout</a>';
                     }
